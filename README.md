@@ -33,7 +33,7 @@
       font-size: 1.7rem;
     }
     .filters {
-      position: fixed;
+      position: sticky;
       top: 0;
       z-index: 1000;
       display: flex;
@@ -68,11 +68,11 @@
     .filters button[data-tag="extrit"] { background-color: var(--black); }
 
     .container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      padding: 6rem 0.5rem 1rem; /* مساحة للرأس المثبت */
+      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
+      gap: 0.5rem;
+      padding: 6rem 0.5rem 1rem;
     }
     .card {
       background-color: #1f2937;
@@ -82,6 +82,8 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
+      width: calc(33.33% - 0.5rem);
+      max-width: 180px;
       aspect-ratio: 1 / 1;
     }
     .card:hover {
@@ -106,10 +108,12 @@
       font-weight: bold;
       margin-bottom: 0.5rem;
       color: #93c5fd;
+      text-align: center;
     }
     .tags {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 0.3rem;
     }
     .tag {
@@ -121,11 +125,6 @@
     }
     .hidden {
       display: none !important;
-    }
-    @media screen and (max-width: 767px) {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
   </style>
 </head>
