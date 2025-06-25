@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>הבשמים של MAD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --blue-light: #b8d9f9;
@@ -24,6 +25,8 @@
       font-family: 'Assistant', sans-serif;
       background-color: #0f172a;
       color: #ffffff;
+      -webkit-font-smoothing: antialiased; /* שיפור רינדור פונטים ב-webkit */
+      -moz-osx-font-smoothing: grayscale; /* שיפור רינדור פונטים ב-firefox */
     }
     header {
       background-color: #1e293b;
@@ -31,21 +34,30 @@
       text-align: center;
       padding: 1rem;
       font-size: 1.7rem;
+      position: fixed; /* קיבוע הכותרת למעלה */
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1001; /* לוודא שהכותרת מעל הכל */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* הוספת צל קל לכותרת */
     }
     .filters {
       position: fixed;
-      top: 0;
+      top: 4.5rem; /* הזיז את הפילטרים מתחת לכותרת */
       z-index: 1000;
       display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
+      flex-wrap: nowrap; /* מונע מעבר שורה של כפתורים */
       gap: 0.5rem;
       padding: 0.5rem;
       background-color: #1e293b;
       width: 100%;
+      justify-content: center;
+      overflow-x: auto; /* מאפשר גלילה אופקית לפילטרים */
+      -webkit-overflow-scrolling: touch; /* גלילה חלקה יותר ב-iOS */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* הוספת צל קל לפילטרים */
     }
     .filters button {
-      flex: 0 0 auto;
+      flex-shrink: 0; /* מונע מכפתורים להתכווץ */
       padding: 0.5rem 1rem;
       border: none;
       border-radius: 999px;
@@ -53,6 +65,10 @@
       cursor: pointer;
       white-space: nowrap;
       color: white;
+      transition: background-color 0.2s ease, transform 0.1s ease; /* אנימציה בלחיצה */
+    }
+    .filters button:active {
+      transform: scale(0.95); /* אפקט לחיצה */
     }
     .filters button[data-tag="חמוץ מרתק"] { background-color: var(--blue-light); color: #000; }
     .filters button[data-tag="עור ועץ"] { background-color: var(--brown); }
@@ -69,14 +85,9 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
-      padding: 5.5rem 0.5rem 1rem;
-    }
-    @media(min-width: 480px) {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      padding: 8.5rem 0.5rem 1rem; /* התאמת ריווח עליון כדי לפנות מקום לכותרת והפילטרים */
     }
     .card {
       background-color: #1f2937;
@@ -85,7 +96,8 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      aspect-ratio: 1/1;
+      aspect-ratio: 1/1; /* שומר על יחס גובה-רוחב ריבועי */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* הוספת צל לכרטיסים */
     }
     .card:hover {
       transform: translateY(-5px);
@@ -124,6 +136,51 @@
     }
     .hidden {
       display: none !important;
+    }
+
+    /* התאמות למסכים קטנים (טלפונים ניידים) */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.5rem;
+        padding: 0.7rem;
+      }
+      .filters {
+        top: 3.5rem; /* התאמת מיקום הפילטרים מתחת לכותרת המוקטנת */
+        padding: 0.4rem;
+        gap: 0.3rem;
+        justify-content: flex-start; /* יישור לשמאל במצב RTL */
+      }
+      .filters button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+      }
+      .container {
+        grid-template-columns: repeat(2, 1fr); /* 2 עמודות במקום 3 במסכים קטנים */
+        gap: 0.4rem;
+        padding-top: 7.5rem; /* התאמת ריווח עליון עקב גובה הפילטרים החדש */
+      }
+      .card {
+        border-radius: 0.7rem;
+      }
+      .card-content {
+        padding: 0.4rem;
+      }
+      .code {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+      }
+      .tag {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    /* התאמות למסכים קטנים מאוד (טלפונים ישנים/קטנים במיוחד) */
+    @media (max-width: 480px) {
+      .container {
+        grid-template-columns: 1fr; /* עמודה אחת במסכים קטנים מאוד */
+        padding-top: 7rem; /* התאמת ריווח עליון נוספת */
+      }
     }
   </style>
 </head>
@@ -202,7 +259,8 @@
         `;
       });
       renderFilterButtons();
-    });
+    })
+    .catch(error => console.error('Error fetching data:', error)); // טיפול בשגיאות
 </script>
 </body>
 </html>
