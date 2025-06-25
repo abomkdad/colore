@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -69,8 +68,8 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
-      gap: 0.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
       padding: 6rem 0.5rem 1rem;
       justify-items: center;
     }
@@ -83,7 +82,7 @@
       flex-direction: column;
       aspect-ratio: 1/1;
       width: 100%;
-      max-width: 120px;
+      max-width: 160px;
     }
     .card img {
       width: 100%;
