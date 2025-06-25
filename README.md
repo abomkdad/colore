@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>הבשמים של MAD</title>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --blue-light: #b8d9f9;
@@ -19,100 +18,61 @@
       --red: #e1675d;
       --lime: #b5c980;
       --black: #000000;
-      --header-height: 4.5rem; /* גובה קבוע לכותרת */
     }
     body {
       margin: 0;
       font-family: 'Assistant', sans-serif;
       background-color: #0f172a;
       color: #ffffff;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
     header {
       background-color: #1e293b;
       color: white;
       text-align: center;
       padding: 1rem;
-      font-size: 1.7rem;
+      font-size: 1.5rem;
+    }
+    .filters {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1001;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      height: var(--header-height);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-
-    .filters-wrapper {
-      position: fixed;
-      top: var(--header-height); /* מתחיל מתחת לכותרת */
-      left: 0;
-      right: 0;
       z-index: 1000;
-      background-color: #1e293b;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      padding: 0.5rem 0; /* ריווח עליון ותחתון קטן יותר לווראפר */
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .filters-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-
-    .filters-row {
       display: flex;
-      flex-wrap: wrap; /* מאפשר לכפתורים לשבור שורה! */
-      gap: 0.5rem; /* רווח בין כפתורים קטן יותר */
-      padding: 0 0.8rem; /* ריווח בצדדים של השורה */
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      padding: 0.4rem;
+      background-color: #1e293b;
       justify-content: center;
-      /* הריווח בין שורות נוצר באופן טבעי ע"י flex-wrap וה-gap */
     }
-    
-    .filters-row button {
-      flex-shrink: 0;
-      padding: 0.8rem 1.5rem; /* פאדינג נוח יותר */
+    .filters button {
+      padding: 0.3rem 0.7rem;
       border: none;
       border-radius: 999px;
-      font-size: 1.1rem; /* גודל פונט גדול יותר */
+      font-size: 0.75rem;
       cursor: pointer;
       white-space: nowrap;
       color: white;
-      transition: background-color 0.2s ease, transform 0.1s ease;
-      min-width: 95px; /* רוחב מינימלי */
     }
-    .filters-row button:active {
-      transform: scale(0.95);
-    }
-    /* צבעים לכפתורים לפי סדר הופעתם */
-    .filters-row button[data-tag="חמוץ מרתק"] { background-color: var(--blue-light); color: #000; }
-    .filters-row button[data-tag="עור ועץ"] { background-color: var(--brown); }
-    .filters-row button[data-tag="חמוץ"] { background-color: var(--green); color: #000; }
-    .filters-row button[data-tag="מרענן"] { background-color: var(--mint); color: #000; }
-    .filters-row button[data-tag="מתוק"] { background-color: var(--orange); color: #000; }
-    .filters-row button[data-tag="מזרחי"] { background-color: var(--burgundy); }
-    .filters-row button[data-tag="פרחוני"] { background-color: var(--pink); color: #000; }
-    .filters-row button[data-tag="פירותי"] { background-color: var(--purple); }
-    .filters-row button[data-tag="אוריינטלי"] { background-color: var(--beige); color: #000; }
-    .filters-row button[data-tag="גורמה"] { background-color: var(--red); }
-    .filters-row button[data-tag="הדרי"] { background-color: var(--lime); color: #000; }
-    .filters-row button[data-tag="extrit"] { background-color: var(--black); }
-    .filters-row button.all-btn { background-color: #6b7280; }
+    .filters button[data-tag="חמוץ מרתק"] { background-color: var(--blue-light); color: #000; }
+    .filters button[data-tag="עור ועץ"] { background-color: var(--brown); }
+    .filters button[data-tag="חמוץ"] { background-color: var(--green); color: #000; }
+    .filters button[data-tag="מרענן"] { background-color: var(--mint); color: #000; }
+    .filters button[data-tag="מתוק"] { background-color: var(--orange); color: #000; }
+    .filters button[data-tag="מזרחי"] { background-color: var(--burgundy); }
+    .filters button[data-tag="פרחוני"] { background-color: var(--pink); color: #000; }
+    .filters button[data-tag="פירותי"] { background-color: var(--purple); }
+    .filters button[data-tag="אוריינטלי"] { background-color: var(--beige); color: #000; }
+    .filters button[data-tag="גורמה"] { background-color: var(--red); }
+    .filters button[data-tag="הדרי"] { background-color: var(--lime); color: #000; }
+    .filters button[data-tag="extrit"] { background-color: var(--black); }
 
     .container {
       display: grid;
-      /* ברירת מחדל: 3 עמודות למסכים גדולים */
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.8rem; /* רווח בין כרטיסים */
-      padding-top: calc(var(--header-height) + 120px); /* גובה התחלתי משוער, יעודכן ע"י JS */
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
-      padding-bottom: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
+      gap: 0.5rem;
+      padding: 6rem 0.5rem 1rem;
+      justify-items: center;
     }
     .card {
       background-color: #1f2937;
@@ -121,11 +81,9 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      aspect-ratio: 1/1; /* שומר על יחס גובה-רוחב ריבועי */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .card:hover {
-      transform: translateY(-5px);
+      aspect-ratio: 1/1;
+      width: 100%;
+      max-width: 120px;
     }
     .card img {
       width: 100%;
@@ -133,16 +91,16 @@
       object-fit: cover;
     }
     .card-content {
-      padding: 0.8rem;
+      padding: 0.4rem;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
     .code {
-      font-size: 1.1rem;
+      font-size: 0.8rem;
       font-weight: bold;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.3rem;
       color: #93c5fd;
       text-align: center;
     }
@@ -150,11 +108,11 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.4rem;
+      gap: 0.2rem;
     }
     .tag {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
+      font-size: 0.55rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 999px;
       background-color: #2563eb;
       color: white;
@@ -162,74 +120,11 @@
     .hidden {
       display: none !important;
     }
-
-    /* התאמות למובייל (רוחב עד 768px) */
-    @media (max-width: 768px) {
-      header {
-        font-size: 1.4rem;
-        padding: 0.6rem;
-        height: 3.8rem;
-        --header-height: 3.8rem;
-      }
-      .filters-wrapper {
-        padding: 0.8rem 0; /* ריווח מתאים יותר במובייל */
-      }
-      .filters-row {
-        gap: 0.6rem; /* רווח בין כפתורים במובייל */
-        padding: 0 1rem; /* ריווח בצדדים של השורה במובייל */
-      }
-      .filters-row button {
-        padding: 0.9rem 1.8rem; /* כפתורים גדולים יותר במובייל */
-        font-size: 1.1rem; /* פונט גדול יותר במובייל */
-        min-width: 110px; /* רוחב מינימלי גדול יותר במובייל */
-      }
-      .container {
-        grid-template-columns: repeat(2, 1fr); /* שני מוצרים בשורה במובייל */
-        gap: 0.6rem; /* רווח בין כרטיסים במובייל */
-        padding-left: 0.6rem;
-        padding-right: 0.6rem;
-        /* ה-padding-top יחושב דינמית ע"י JS */
-      }
-      .card {
-        border-radius: 0.8rem;
-      }
-      .card-content {
-        padding: 0.6rem;
-      }
-      .code {
-        font-size: 1rem;
-        margin-bottom: 0.4rem;
-      }
-      .tag {
-        font-size: 0.7rem;
-        padding: 0.25rem 0.6rem;
-      }
-    }
-
-    /* התאמות למסכים קטנים מאוד (רוחב עד 480px) */
-    @media (max-width: 480px) {
-      .filters-row button {
-        font-size: 1rem; /* קצת יותר קטן אבל עדיין קריא ונוח */
-        padding: 0.8rem 1.4rem;
-        min-width: 90px;
-      }
-      .container {
-        grid-template-columns: 1fr; /* עמודה אחת בטלפונים קטנים מאוד (אופציונלי) */
-      }
-      .code {
-        font-size: 0.9rem;
-      }
-      .tag {
-        font-size: 0.65rem;
-      }
-    }
   </style>
 </head>
 <body>
 <header>הבשמים של MAD</header>
-<div class="filters-wrapper">
-  <div class="filters-row" id="filters-row"></div>
-</div>
+<div class="filters" id="filters"></div>
 <div class="container" id="products"></div>
 <script>
   const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
@@ -239,24 +134,19 @@
   ];
 
   function renderFilterButtons() {
-    const filtersRow = document.getElementById('filters-row');
-    filtersRow.innerHTML = ''; // מנקה כפתורים קודמים אם קיימים
-
+    const filters = document.getElementById('filters');
     categories.forEach(cat => {
       const btn = document.createElement('button');
       btn.textContent = cat;
       btn.dataset.tag = cat;
       btn.onclick = () => filterBy(cat);
-      filtersRow.appendChild(btn);
+      filters.appendChild(btn);
     });
-
     const allBtn = document.createElement('button');
     allBtn.textContent = 'הצג הכל';
-    allBtn.classList.add('all-btn');
+    allBtn.style.backgroundColor = '#6b7280';
     allBtn.onclick = () => filterBy('all');
-    filtersRow.appendChild(allBtn);
-
-    updateContainerPadding(); // עדכון הריווח לאחר יצירת הכפתורים
+    filters.appendChild(allBtn);
   }
 
   function filterBy(tag) {
@@ -269,33 +159,12 @@
     });
   }
 
-  // פונקציה לעדכון ה-padding-top של ה-container בהתאם לגובה האמיתי של אזור הפילטרים
-  function updateContainerPadding() {
-    const headerHeight = document.querySelector('header').offsetHeight;
-    const filtersWrapperHeight = document.querySelector('.filters-wrapper').offsetHeight;
-    const productsContainer = document.getElementById('products');
-    // הגדלנו את ה-padding-top הקבוע ל-25px כדי לוודא שיש מספיק רווח
-    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 25}px`;
-  }
-
-  // הקשבה לאירוע שינוי גודל חלון כדי לעדכן את הריווח במידת הצורך
-  // שימוש ב-setTimeout קצר כדי לאפשר לדפדפן לסיים רינדור לפני החישוב
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(updateContainerPadding, 100);
-  });
-  // קריאה ראשונית כשכל התוכן נטען (ודא שזה אחרי שה-DOM מוכן)
-  window.addEventListener('load', updateContainerPadding);
-
-
   fetch(sheetUrl)
     .then(res => res.text())
     .then(text => JSON.parse(text.substring(47).slice(0, -2)))
     .then(data => {
       const rows = data.table.rows;
       const container = document.getElementById('products');
-      container.innerHTML = ''; // מנקה מוצרים קודמים אם קיימים
 
       rows.slice(1).forEach(row => {
         const code = row.c[0]?.v || '';
@@ -327,9 +196,8 @@
           </div>
         `;
       });
-      renderFilterButtons(); // קריאה ליצירת הכפתורים לאחר טעינת הנתונים
-    })
-    .catch(error => console.error('Error fetching data:', error));
+      renderFilterButtons();
+    });
 </script>
 </body>
 </html>
