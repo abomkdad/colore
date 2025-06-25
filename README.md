@@ -1,3 +1,21 @@
+אוקיי, אני מבין את הבעיה שעדיין נותרה בתמונות החדשות:
+
+1.  **הכפתורים עדיין קצת קטנים** ופונט ה-"הצג הכל" בקושי נראה.
+2.  **הריווח מתחת לשורת הכפתורים האחרונה הוא גדול מדי**, ויוצר רווח ריק מיותר בין הפילטרים לבין המוצרים.
+
+הבעיה היא שהפונקציה `updateContainerPadding()` ב-JavaScript מחשבת את גובה ה-`filters-wrapper` ואז מוסיפה לו 20px קבועים. ה-`filters-wrapper` עצמו כבר מכיל ריווח פנימי (`padding: 0.8rem 0;`) וגם הכפתורים עצמם יוצרים ריווח (`gap: 0.6rem`). ה-20px הנוספים האלה (ואולי גם ה-`margin-bottom` של הכפתורים בתוך השורה) יוצרים את הריווח הריק שאתה רואה.
+
+**הפתרון:**
+
+  * **נפחית את הריווחים המיותרים ב-CSS** סביב הכפתורים ובתוך ה-`filters-row`.
+  * **נכוונן את ה-padding-top** ב-JavaScript כך שישקף במדויק את הגובה הנדרש.
+  * **נגדיל שוב מעט את הכפתורים** וגודל הפונט שלהם.
+
+-----
+
+## הקוד המעודכן עם פתרון לריווח ולגודל הכפתורים:
+
+```html
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -56,8 +74,8 @@
       z-index: 1000;
       background-color: #1e293b;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      padding: 0.8rem 0; /* ריווח עליון ותחתון לווראפר */
-      overflow-y: auto; /* מאפשר גלילה אנכית של כל אזור הפילטרים אם הוא ארוך מדי */
+      padding: 0.5rem 0; /* ריווח עליון ותחתון קטן יותר לווראפר */
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
@@ -68,15 +86,15 @@
     .filters-row {
       display: flex;
       flex-wrap: wrap; /* מאפשר לכפתורים לשבור שורה! */
-      gap: 0.6rem; /* רווח בין כפתורים */
+      gap: 0.5rem; /* רווח בין כפתורים קטן יותר */
       padding: 0 0.8rem; /* ריווח בצדדים של השורה */
       justify-content: center;
-      /* אין צורך ב-margin-bottom here מכיוון שאין יותר שורות filters-row נפרדות */
+      /* הריווח בין שורות נוצר באופן טבעי ע"י flex-wrap וה-gap */
     }
     
     .filters-row button {
       flex-shrink: 0;
-      padding: 0.9rem 1.6rem; /* גודל פאדינג גדול יותר */
+      padding: 0.8rem 1.5rem; /* פאדינג נוח יותר */
       border: none;
       border-radius: 999px;
       font-size: 1.1rem; /* גודל פונט גדול יותר */
@@ -84,7 +102,7 @@
       white-space: nowrap;
       color: white;
       transition: background-color 0.2s ease, transform 0.1s ease;
-      min-width: 100px; /* רוחב מינימלי */
+      min-width: 95px; /* רוחב מינימלי */
     }
     .filters-row button:active {
       transform: scale(0.95);
@@ -172,16 +190,16 @@
         --header-height: 3.8rem;
       }
       .filters-wrapper {
-        padding: 1rem 0; /* ריווח גדול יותר מסביב לכפתורים במובייל */
+        padding: 0.8rem 0; /* ריווח מתאים יותר במובייל */
       }
       .filters-row {
-        gap: 0.8rem; /* רווח גדול יותר בין כפתורים במובייל */
+        gap: 0.6rem; /* רווח בין כפתורים במובייל */
         padding: 0 1rem; /* ריווח בצדדים של השורה במובייל */
       }
       .filters-row button {
-        padding: 1rem 2rem; /* כפתורים גדולים יותר במובייל */
-        font-size: 1.2rem; /* פונט גדול יותר במובייל */
-        min-width: 120px; /* רוחב מינימלי גדול יותר במובייל */
+        padding: 0.9rem 1.8rem; /* כפתורים גדולים יותר במובייל */
+        font-size: 1.1rem; /* פונט גדול יותר במובייל */
+        min-width: 110px; /* רוחב מינימלי גדול יותר במובייל */
       }
       .container {
         grid-template-columns: repeat(2, 1fr); /* שני מוצרים בשורה במובייל */
@@ -211,10 +229,10 @@
       .filters-row button {
         font-size: 1rem; /* קצת יותר קטן אבל עדיין קריא ונוח */
         padding: 0.8rem 1.4rem;
-        min-width: 100px;
+        min-width: 90px;
       }
       .container {
-        grid-template-columns: 1fr; /* אפשרות לעמודה אחת בטלפונים ממש קטנים אם צריך */
+        grid-template-columns: 1fr; /* עמודה אחת בטלפונים קטנים מאוד (אופציונלי) */
       }
       .code {
         font-size: 0.9rem;
@@ -274,8 +292,8 @@
     const headerHeight = document.querySelector('header').offsetHeight;
     const filtersWrapperHeight = document.querySelector('.filters-wrapper').offsetHeight;
     const productsContainer = document.getElementById('products');
-    // הוסף ריווח נוסף קבוע כדי למנוע חפיפה צמודה
-    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 20}px`;
+    // הגדלנו את ה-padding-top הקבוע ל-25px כדי לוודא שיש מספיק רווח
+    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 25}px`;
   }
 
   // הקשבה לאירוע שינוי גודל חלון כדי לעדכן את הריווח במידת הצורך
@@ -285,7 +303,7 @@
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(updateContainerPadding, 100);
   });
-  // קריאה ראשונית כשכל התוכן נטען
+  // קריאה ראשונית כשכל התוכן נטען (ודא שזה אחרי שה-DOM מוכן)
   window.addEventListener('load', updateContainerPadding);
 
 
@@ -333,3 +351,4 @@
 </script>
 </body>
 </html>
+```
