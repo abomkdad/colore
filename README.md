@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>הבשמים של MAD</title>
   <style>
     :root {
@@ -18,6 +19,9 @@
       --lime: #b5c980;
       --black: #000000;
     }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Assistant', sans-serif;
@@ -30,22 +34,23 @@
       text-align: center;
       padding: 1rem;
       font-size: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1001;
     }
     .filters {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: sticky;
+      top: 3.5rem;
       z-index: 1000;
       display: flex;
       flex-wrap: wrap;
       gap: 0.3rem;
-      padding: 0.4rem;
+      padding: 0.5rem 0.3rem;
       background-color: #1e293b;
       justify-content: center;
     }
     .filters button {
-      padding: 0.3rem 0.7rem;
+      padding: 0.4rem 0.8rem;
       border: none;
       border-radius: 999px;
       font-size: 0.75rem;
@@ -69,9 +74,14 @@
     .container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.6rem;
-      padding: 6rem 0.5rem 1rem;
+      gap: 0.7rem;
+      padding: 8rem 0.6rem 2rem;
       justify-items: center;
+    }
+    @media(min-width: 700px) {
+      .container {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .card {
       background-color: #1f2937;
@@ -80,9 +90,9 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      aspect-ratio: 1/1;
       width: 100%;
-      max-width: 160px;
+      aspect-ratio: 1 / 1;
+      max-width: 300px;
     }
     .card img {
       width: 100%;
