@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -37,7 +36,8 @@
       top: 0;
       z-index: 10;
       display: flex;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 0.5rem;
       padding: 1rem;
       background-color: #1e293b;
@@ -68,8 +68,8 @@
     .container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      padding: 1rem;
-      gap: 1rem;
+      padding: 0.5rem;
+      gap: 0.5rem;
     }
     .card {
       background-color: #1f2937;
@@ -87,8 +87,9 @@
     .card img {
       width: 100%;
       height: auto;
-      max-height: 60%;
-      object-fit: cover;
+      object-fit: contain;
+      aspect-ratio: 1/1;
+      background-color: #ffffff10;
     }
     .card-content {
       padding: 0.5rem;
@@ -117,6 +118,16 @@
     }
     .hidden {
       display: none !important;
+    }
+    @media screen and (max-width: 768px) {
+      .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+      }
+      .card {
+        width: 100%;
+      }
     }
   </style>
 </head>
