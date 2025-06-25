@@ -20,7 +20,7 @@
       --lime: #b5c980;
       --black: #000000;
       --header-height: 4.5rem; /* גובה קבוע לכותרת */
-      --filter-row-height: 2.5rem; /* גובה משוער לשורת פילטרים אחת */
+      --filter-button-height: 2.5rem; /* גובה משוער לכפתור פילטר */
       --filter-padding: 0.5rem; /* ריווח פנימי לכפתורי פילטר */
     }
     body {
@@ -47,7 +47,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-sizing: border-box; /* כלול פאדינג ובורדר בגובה */
+      box-sizing: border-box;
     }
 
     .filters-wrapper {
@@ -59,34 +59,39 @@
       background-color: #1e293b;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       padding: var(--filter-padding) 0; /* ריווח עליון ותחתון */
+      /* גלילה אנכית אם יש יותר מדי שורות פילטר במסכים צרים מאוד */
+      max-height: 50vh; /* מגביל את גובה אזור הפילטרים אם יש הרבה שורות */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* הסתרת סרגל גלילה ב-Firefox */
+    }
+    .filters-wrapper::-webkit-scrollbar {
+      display: none;
     }
 
     .filters-row {
       display: flex;
-      flex-wrap: nowrap; /* מונע מעבר שורה של כפתורים */
+      flex-wrap: wrap; /* מאפשר לכפתורים לשבור שורה! */
       gap: 0.5rem;
       padding: 0 0.5rem; /* ריווח בצדדים */
       justify-content: center;
-      overflow-x: auto; /* מאפשר גלילה אופקית לפילטרים */
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* הסתרת סרגל גלילה ב-Firefox */
+      margin-bottom: 0.5rem; /* ריווח בין שורות הפילטר */
     }
-
-    /* הסתרת סרגל גלילה ב-Webkit (Chrome, Safari) */
-    .filters-row::-webkit-scrollbar {
-      display: none;
+    .filters-row:last-child {
+        margin-bottom: 0; /* ללא ריווח אחרי השורה האחרונה */
     }
 
     .filters-row button {
       flex-shrink: 0;
-      padding: 0.5rem 1rem;
+      padding: 0.7rem 1.2rem; /* הגדלת הפאדינג לכפתורים */
       border: none;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.9rem; /* הגדלת גודל הפונט לכפתורים */
       cursor: pointer;
       white-space: nowrap;
       color: white;
       transition: background-color 0.2s ease, transform 0.1s ease;
+      min-width: 80px; /* רוחב מינימלי לכפתור */
     }
     .filters-row button:active {
       transform: scale(0.95);
@@ -104,14 +109,15 @@
     .filters-row button[data-tag="גורמה"] { background-color: var(--red); }
     .filters-row button[data-tag="הדרי"] { background-color: var(--lime); color: #000; }
     .filters-row button[data-tag="extrit"] { background-color: var(--black); }
-    .filters-row button.all-btn { background-color: #6b7280; } /* צבע לכפתור 'הצג הכל' */
+    .filters-row button.all-btn { background-color: #6b7280; }
 
     .container {
       display: grid;
       grid-template-columns: repeat(3, 1fr); /* 3 עמודות קבועות בכל גודל מסך */
       gap: 0.5rem;
-      /* חישוב הריווח העליון: גובה כותרת + גובה 2 שורות פילטר + ריווח בין שורות הפילטר + ריווח פנימי */
-      padding-top: calc(var(--header-height) + (2 * var(--filter-row-height)) + (2 * var(--filter-padding)) + 1rem); /* 1rem ריווח נוסף */
+      /* חישוב הריווח העליון: גובה כותרת + גובה פילטרים דינמי */
+      /* נשתמש ב-JS כדי לחשב את הגובה המדויק של אזור הפילטרים ולעדכן את ה-padding-top */
+      padding-top: calc(var(--header-height) + 120px); /* גובה התחלתי משוער, יעודכן ע"י JS */
       padding-left: 0.5rem;
       padding-right: 0.5rem;
       padding-bottom: 1rem;
@@ -165,30 +171,26 @@
       display: none !important;
     }
 
-    /* התאמות ספציפיות למובייל, אם כי ה-grid נשאר 3 עמודות */
+    /* התאמות למובייל - גבהים וגדלים */
     @media (max-width: 768px) {
       header {
         font-size: 1.4rem;
         padding: 0.6rem;
-        height: 3.8rem; /* התאמת גובה הכותרת במובייל */
+        height: 3.8rem;
         --header-height: 3.8rem;
       }
       .filters-wrapper {
-        top: var(--header-height);
-        padding: 0.4rem 0; /* הקטנת ריווח של wrapper במובייל */
+        padding: 0.4rem 0; /* קצת פחות פאדינג בווראפר במובייל */
       }
       .filters-row {
         gap: 0.3rem;
         padding: 0 0.4rem;
+        margin-bottom: 0.4rem; /* קצת פחות ריווח בין שורות */
       }
       .filters-row button {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.75rem;
-      }
-      .container {
-        /* חישוב מחדש של הריווח העליון עבור גבהים מותאמים למובייל */
-        padding-top: calc(var(--header-height) + (2 * var(--filter-row-height)) + (2 * var(--filter-padding)) + 0.8rem);
-        gap: 0.4rem;
+        padding: 0.6rem 1rem; /* פאדינג גדול יותר לכפתורים במובייל */
+        font-size: 0.85rem; /* גודל פונט גדול יותר לכפתורים במובייל */
+        min-width: 70px; /* רוחב מינימלי לכפתור במובייל */
       }
       .card {
         border-radius: 0.7rem;
@@ -206,11 +208,11 @@
       }
     }
 
-    /* התאמות למסכים קטנים מאוד - 3 עמודות עלולות להיות צפופות */
+    /* התאמות למסכים קטנים מאוד - גודל פונט בכפתורים */
     @media (max-width: 480px) {
       .filters-row button {
-        font-size: 0.65rem; /* הקטנה נוספת של כפתורים במסכים קטנים */
-        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem; /* גודל פונט בכפתורים במסכים קטנים מאוד */
+        padding: 0.5rem 0.8rem;
       }
       .code {
         font-size: 0.75rem;
@@ -225,7 +227,8 @@
 <header>הבשמים של MAD</header>
 <div class="filters-wrapper">
   <div class="filters-row" id="filters-row-1"></div>
-  <div class="filters-row" id="filters-row-2" style="margin-top: 0.5rem;"></div> </div>
+  <div class="filters-row" id="filters-row-2"></div>
+</div>
 <div class="container" id="products"></div>
 <script>
   const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
@@ -237,7 +240,7 @@
   function renderFilterButtons() {
     const filterRow1 = document.getElementById('filters-row-1');
     const filterRow2 = document.getElementById('filters-row-2');
-    const half = Math.ceil(categories.length / 2); // לחלק לקרוב לחצי
+    const half = Math.ceil(categories.length / 2);
 
     categories.forEach((cat, index) => {
       const btn = document.createElement('button');
@@ -251,16 +254,13 @@
       }
     });
 
-    // הוספת כפתור "הצג הכל" לשורה השנייה או הראשונה אם יש רק שורה אחת
     const allBtn = document.createElement('button');
     allBtn.textContent = 'הצג הכל';
-    allBtn.classList.add('all-btn'); // הוספת קלאס לצביעה קלה
+    allBtn.classList.add('all-btn');
     allBtn.onclick = () => filterBy('all');
-    if (categories.length > 0) {
-      filterRow2.appendChild(allBtn); // תמיד בשורה השנייה אם קיימת
-    } else {
-      filterRow1.appendChild(allBtn); // אם אין קטגוריות, אז בשורה הראשונה
-    }
+    filterRow2.appendChild(allBtn); // הוסף תמיד לשורה השנייה
+
+    updateContainerPadding(); // קרא לפונקציה לעדכון הריווח לאחר יצירת הכפתורים
   }
 
   function filterBy(tag) {
@@ -272,6 +272,18 @@
       }
     });
   }
+
+  // פונקציה לעדכון ה-padding-top של ה-container בהתאם לגובה האמיתי של אזור הפילטרים
+  function updateContainerPadding() {
+    const headerHeight = document.querySelector('header').offsetHeight;
+    const filtersWrapperHeight = document.querySelector('.filters-wrapper').offsetHeight;
+    const productsContainer = document.getElementById('products');
+    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 10}px`; // 10px ריווח נוסף
+  }
+
+  // הקשבה לאירוע שינוי גודל חלון כדי לעדכן את הריווח במידת הצורך
+  window.addEventListener('resize', updateContainerPadding);
+
 
   fetch(sheetUrl)
     .then(res => res.text())
