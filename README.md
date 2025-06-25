@@ -33,6 +33,9 @@
       font-size: 1.7rem;
     }
     .filters {
+      position: sticky;
+      top: 0;
+      z-index: 10;
       display: flex;
       overflow-x: auto;
       gap: 0.5rem;
@@ -67,16 +70,6 @@
       grid-template-columns: repeat(3, 1fr);
       padding: 1rem;
       gap: 1rem;
-    }
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    @media (max-width: 500px) {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
     .card {
       background-color: #1f2937;
