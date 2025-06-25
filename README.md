@@ -20,8 +20,6 @@
       --lime: #b5c980;
       --black: #000000;
       --header-height: 4.5rem; /* גובה קבוע לכותרת */
-      --filter-button-height: 2.5rem; /* גובה משוער לכפתור פילטר */
-      --filter-padding: 0.5rem; /* ריווח פנימי לכפתורי פילטר */
     }
     body {
       margin: 0;
@@ -58,9 +56,8 @@
       z-index: 1000;
       background-color: #1e293b;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      padding: var(--filter-padding) 0; /* ריווח עליון ותחתון */
-      max-height: 50vh; /* מגביל את גובה אזור הפילטרים אם יש הרבה שורות */
-      overflow-y: auto;
+      padding: 0.8rem 0; /* ריווח עליון ותחתון לווראפר */
+      overflow-y: auto; /* מאפשר גלילה אנכית של כל אזור הפילטרים אם הוא ארוך מדי */
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
@@ -71,33 +68,28 @@
     .filters-row {
       display: flex;
       flex-wrap: wrap; /* מאפשר לכפתורים לשבור שורה! */
-      gap: 0.5rem;
-      padding: 0 0.5rem; /* ריווח בצדדים */
+      gap: 0.6rem; /* רווח בין כפתורים */
+      padding: 0 0.8rem; /* ריווח בצדדים של השורה */
       justify-content: center;
-      /* הסרנו את margin-bottom קבוע, ננהל אותו אחרת */
+      /* אין צורך ב-margin-bottom here מכיוון שאין יותר שורות filters-row נפרדות */
     }
-    /* נוסיף ריווח בין שורות הפילטרים רק אם יש יותר משורה אחת */
-    .filters-row + .filters-row {
-        margin-top: 0.5rem; /* רווח בין שורה לשורה */
-    }
-
-
+    
     .filters-row button {
       flex-shrink: 0;
-      padding: 0.8rem 1.4rem; /* הגדלה משמעותית של הפאדינג לכפתורים */
+      padding: 0.9rem 1.6rem; /* גודל פאדינג גדול יותר */
       border: none;
       border-radius: 999px;
-      font-size: 1rem; /* הגדלה משמעותית של גודל הפונט לכפתורים */
+      font-size: 1.1rem; /* גודל פונט גדול יותר */
       cursor: pointer;
       white-space: nowrap;
       color: white;
       transition: background-color 0.2s ease, transform 0.1s ease;
-      min-width: 90px; /* רוחב מינימלי לכפתור */
+      min-width: 100px; /* רוחב מינימלי */
     }
     .filters-row button:active {
       transform: scale(0.95);
     }
-    /* צבעים לכפתורים - לכל כפתור בנפרד */
+    /* צבעים לכפתורים לפי סדר הופעתם */
     .filters-row button[data-tag="חמוץ מרתק"] { background-color: var(--blue-light); color: #000; }
     .filters-row button[data-tag="עור ועץ"] { background-color: var(--brown); }
     .filters-row button[data-tag="חמוץ"] { background-color: var(--green); color: #000; }
@@ -116,10 +108,10 @@
       display: grid;
       /* ברירת מחדל: 3 עמודות למסכים גדולים */
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
+      gap: 0.8rem; /* רווח בין כרטיסים */
       padding-top: calc(var(--header-height) + 120px); /* גובה התחלתי משוער, יעודכן ע"י JS */
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
       padding-bottom: 1rem;
     }
     .card {
@@ -129,7 +121,7 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      aspect-ratio: 1/1;
+      aspect-ratio: 1/1; /* שומר על יחס גובה-רוחב ריבועי */
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
     .card:hover {
@@ -141,16 +133,16 @@
       object-fit: cover;
     }
     .card-content {
-      padding: 0.5rem;
+      padding: 0.8rem;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
     .code {
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
       color: #93c5fd;
       text-align: center;
     }
@@ -158,11 +150,11 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.3rem;
+      gap: 0.4rem;
     }
     .tag {
-      font-size: 0.65rem;
-      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
       border-radius: 999px;
       background-color: #2563eb;
       color: white;
@@ -171,7 +163,7 @@
       display: none !important;
     }
 
-    /* התאמות למסכים בינוניים (טאבלטים במצב פורטרט, טלפונים גדולים) */
+    /* התאמות למובייל (רוחב עד 768px) */
     @media (max-width: 768px) {
       header {
         font-size: 1.4rem;
@@ -180,56 +172,55 @@
         --header-height: 3.8rem;
       }
       .filters-wrapper {
-        padding: 0.4rem 0;
+        padding: 1rem 0; /* ריווח גדול יותר מסביב לכפתורים במובייל */
       }
       .filters-row {
-        gap: 0.4rem;
-        padding: 0 0.4rem;
-      }
-      .filters-row + .filters-row {
-          margin-top: 0.4rem;
+        gap: 0.8rem; /* רווח גדול יותר בין כפתורים במובייל */
+        padding: 0 1rem; /* ריווח בצדדים של השורה במובייל */
       }
       .filters-row button {
-        padding: 0.7rem 1.2rem; /* פאדינג נוח יותר */
-        font-size: 0.9rem; /* גודל פונט נוח יותר */
-        min-width: 80px;
+        padding: 1rem 2rem; /* כפתורים גדולים יותר במובייל */
+        font-size: 1.2rem; /* פונט גדול יותר במובייל */
+        min-width: 120px; /* רוחב מינימלי גדול יותר במובייל */
       }
       .container {
-        grid-template-columns: repeat(2, 1fr); /* 2 עמודות לרוב המוביילים */
-        gap: 0.4rem;
+        grid-template-columns: repeat(2, 1fr); /* שני מוצרים בשורה במובייל */
+        gap: 0.6rem; /* רווח בין כרטיסים במובייל */
+        padding-left: 0.6rem;
+        padding-right: 0.6rem;
+        /* ה-padding-top יחושב דינמית ע"י JS */
       }
       .card {
-        border-radius: 0.7rem;
+        border-radius: 0.8rem;
       }
       .card-content {
-        padding: 0.4rem;
+        padding: 0.6rem;
       }
       .code {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
       }
       .tag {
-        font-size: 0.6rem;
-        padding: 0.2rem 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
       }
     }
 
-    /* התאמות למסכים קטנים מאוד (טלפונים ישנים/צרים) */
+    /* התאמות למסכים קטנים מאוד (רוחב עד 480px) */
     @media (max-width: 480px) {
       .filters-row button {
-        font-size: 0.8rem; /* קצת יותר קטן אבל עדיין קריא ונוח */
-        padding: 0.6rem 1rem;
-        min-width: 70px;
+        font-size: 1rem; /* קצת יותר קטן אבל עדיין קריא ונוח */
+        padding: 0.8rem 1.4rem;
+        min-width: 100px;
       }
       .container {
-        grid-template-columns: 1fr; /* עמודה אחת למסכים קטנים מאוד */
-        gap: 0.3rem;
+        grid-template-columns: 1fr; /* אפשרות לעמודה אחת בטלפונים ממש קטנים אם צריך */
       }
       .code {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
       .tag {
-        font-size: 0.55rem;
+        font-size: 0.65rem;
       }
     }
   </style>
@@ -237,8 +228,7 @@
 <body>
 <header>הבשמים של MAD</header>
 <div class="filters-wrapper">
-  <div class="filters-row" id="filters-row-1"></div>
-  <div class="filters-row" id="filters-row-2"></div>
+  <div class="filters-row" id="filters-row"></div>
 </div>
 <div class="container" id="products"></div>
 <script>
@@ -249,33 +239,24 @@
   ];
 
   function renderFilterButtons() {
-    const filterRow1 = document.getElementById('filters-row-1');
-    const filterRow2 = document.getElementById('filters-row-2');
-    const half = Math.ceil(categories.length / 2);
+    const filtersRow = document.getElementById('filters-row');
+    filtersRow.innerHTML = ''; // מנקה כפתורים קודמים אם קיימים
 
-    // Clear previous buttons to avoid duplicates on re-render if any
-    filterRow1.innerHTML = '';
-    filterRow2.innerHTML = '';
-
-    categories.forEach((cat, index) => {
+    categories.forEach(cat => {
       const btn = document.createElement('button');
       btn.textContent = cat;
       btn.dataset.tag = cat;
       btn.onclick = () => filterBy(cat);
-      if (index < half) {
-        filterRow1.appendChild(btn);
-      } else {
-        filterRow2.appendChild(btn);
-      }
+      filtersRow.appendChild(btn);
     });
 
     const allBtn = document.createElement('button');
     allBtn.textContent = 'הצג הכל';
     allBtn.classList.add('all-btn');
     allBtn.onclick = () => filterBy('all');
-    filterRow2.appendChild(allBtn); // הוסף תמיד לשורה השנייה
+    filtersRow.appendChild(allBtn);
 
-    updateContainerPadding(); // קרא לפונקציה לעדכון הריווח לאחר יצירת הכפתורים
+    updateContainerPadding(); // עדכון הריווח לאחר יצירת הכפתורים
   }
 
   function filterBy(tag) {
@@ -288,20 +269,21 @@
     });
   }
 
+  // פונקציה לעדכון ה-padding-top של ה-container בהתאם לגובה האמיתי של אזור הפילטרים
   function updateContainerPadding() {
     const headerHeight = document.querySelector('header').offsetHeight;
     const filtersWrapperHeight = document.querySelector('.filters-wrapper').offsetHeight;
     const productsContainer = document.getElementById('products');
-    // הוסף קצת ריווח נוסף מעבר לגובה המדויק
-    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 15}px`;
+    // הוסף ריווח נוסף קבוע כדי למנוע חפיפה צמודה
+    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 20}px`;
   }
 
   // הקשבה לאירוע שינוי גודל חלון כדי לעדכן את הריווח במידת הצורך
-  // ודא שהעדכון מתבצע לאחר שהדפדפן סיים לסדר את ה-layout
+  // שימוש ב-setTimeout קצר כדי לאפשר לדפדפן לסיים רינדור לפני החישוב
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(updateContainerPadding, 100); // השהיה קצרה לביצוע אופטימלי
+    resizeTimeout = setTimeout(updateContainerPadding, 100);
   });
   // קריאה ראשונית כשכל התוכן נטען
   window.addEventListener('load', updateContainerPadding);
@@ -313,6 +295,7 @@
     .then(data => {
       const rows = data.table.rows;
       const container = document.getElementById('products');
+      container.innerHTML = ''; // מנקה מוצרים קודמים אם קיימים
 
       rows.slice(1).forEach(row => {
         const code = row.c[0]?.v || '';
@@ -344,7 +327,7 @@
           </div>
         `;
       });
-      renderFilterButtons();
+      renderFilterButtons(); // קריאה ליצירת הכפתורים לאחר טעינת הנתונים
     })
     .catch(error => console.error('Error fetching data:', error));
 </script>
