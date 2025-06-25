@@ -33,7 +33,7 @@
       font-size: 1.7rem;
     }
     .filters {
-      position: sticky;
+      position: fixed;
       top: 0;
       z-index: 1000;
       display: flex;
@@ -82,8 +82,8 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      width: calc(33.33% - 0.5rem);
-      max-width: 180px;
+      flex: 0 0 calc(33.333% - 0.5rem);
+      max-width: calc(33.333% - 0.5rem);
       aspect-ratio: 1 / 1;
     }
     .card:hover {
