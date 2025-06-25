@@ -59,11 +59,10 @@
       background-color: #1e293b;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       padding: var(--filter-padding) 0; /* ריווח עליון ותחתון */
-      /* גלילה אנכית אם יש יותר מדי שורות פילטר במסכים צרים מאוד */
       max-height: 50vh; /* מגביל את גובה אזור הפילטרים אם יש הרבה שורות */
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* הסתרת סרגל גלילה ב-Firefox */
+      scrollbar-width: none;
     }
     .filters-wrapper::-webkit-scrollbar {
       display: none;
@@ -75,23 +74,25 @@
       gap: 0.5rem;
       padding: 0 0.5rem; /* ריווח בצדדים */
       justify-content: center;
-      margin-bottom: 0.5rem; /* ריווח בין שורות הפילטר */
+      /* הסרנו את margin-bottom קבוע, ננהל אותו אחרת */
     }
-    .filters-row:last-child {
-        margin-bottom: 0; /* ללא ריווח אחרי השורה האחרונה */
+    /* נוסיף ריווח בין שורות הפילטרים רק אם יש יותר משורה אחת */
+    .filters-row + .filters-row {
+        margin-top: 0.5rem; /* רווח בין שורה לשורה */
     }
+
 
     .filters-row button {
       flex-shrink: 0;
-      padding: 0.7rem 1.2rem; /* הגדלת הפאדינג לכפתורים */
+      padding: 0.8rem 1.4rem; /* הגדלה משמעותית של הפאדינג לכפתורים */
       border: none;
       border-radius: 999px;
-      font-size: 0.9rem; /* הגדלת גודל הפונט לכפתורים */
+      font-size: 1rem; /* הגדלה משמעותית של גודל הפונט לכפתורים */
       cursor: pointer;
       white-space: nowrap;
       color: white;
       transition: background-color 0.2s ease, transform 0.1s ease;
-      min-width: 80px; /* רוחב מינימלי לכפתור */
+      min-width: 90px; /* רוחב מינימלי לכפתור */
     }
     .filters-row button:active {
       transform: scale(0.95);
@@ -113,10 +114,9 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 עמודות קבועות בכל גודל מסך */
+      /* ברירת מחדל: 3 עמודות למסכים גדולים */
+      grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
-      /* חישוב הריווח העליון: גובה כותרת + גובה פילטרים דינמי */
-      /* נשתמש ב-JS כדי לחשב את הגובה המדויק של אזור הפילטרים ולעדכן את ה-padding-top */
       padding-top: calc(var(--header-height) + 120px); /* גובה התחלתי משוער, יעודכן ע"י JS */
       padding-left: 0.5rem;
       padding-right: 0.5rem;
@@ -171,7 +171,7 @@
       display: none !important;
     }
 
-    /* התאמות למובייל - גבהים וגדלים */
+    /* התאמות למסכים בינוניים (טאבלטים במצב פורטרט, טלפונים גדולים) */
     @media (max-width: 768px) {
       header {
         font-size: 1.4rem;
@@ -180,17 +180,23 @@
         --header-height: 3.8rem;
       }
       .filters-wrapper {
-        padding: 0.4rem 0; /* קצת פחות פאדינג בווראפר במובייל */
+        padding: 0.4rem 0;
       }
       .filters-row {
-        gap: 0.3rem;
+        gap: 0.4rem;
         padding: 0 0.4rem;
-        margin-bottom: 0.4rem; /* קצת פחות ריווח בין שורות */
+      }
+      .filters-row + .filters-row {
+          margin-top: 0.4rem;
       }
       .filters-row button {
-        padding: 0.6rem 1rem; /* פאדינג גדול יותר לכפתורים במובייל */
-        font-size: 0.85rem; /* גודל פונט גדול יותר לכפתורים במובייל */
-        min-width: 70px; /* רוחב מינימלי לכפתור במובייל */
+        padding: 0.7rem 1.2rem; /* פאדינג נוח יותר */
+        font-size: 0.9rem; /* גודל פונט נוח יותר */
+        min-width: 80px;
+      }
+      .container {
+        grid-template-columns: repeat(2, 1fr); /* 2 עמודות לרוב המוביילים */
+        gap: 0.4rem;
       }
       .card {
         border-radius: 0.7rem;
@@ -199,26 +205,31 @@
         padding: 0.4rem;
       }
       .code {
-        font-size: 0.85rem;
-        margin-bottom: 0.2rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
       }
       .tag {
-        font-size: 0.55rem;
-        padding: 0.15rem 0.4rem;
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
       }
     }
 
-    /* התאמות למסכים קטנים מאוד - גודל פונט בכפתורים */
+    /* התאמות למסכים קטנים מאוד (טלפונים ישנים/צרים) */
     @media (max-width: 480px) {
       .filters-row button {
-        font-size: 0.75rem; /* גודל פונט בכפתורים במסכים קטנים מאוד */
-        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem; /* קצת יותר קטן אבל עדיין קריא ונוח */
+        padding: 0.6rem 1rem;
+        min-width: 70px;
+      }
+      .container {
+        grid-template-columns: 1fr; /* עמודה אחת למסכים קטנים מאוד */
+        gap: 0.3rem;
       }
       .code {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
       }
       .tag {
-        font-size: 0.5rem;
+        font-size: 0.55rem;
       }
     }
   </style>
@@ -241,6 +252,10 @@
     const filterRow1 = document.getElementById('filters-row-1');
     const filterRow2 = document.getElementById('filters-row-2');
     const half = Math.ceil(categories.length / 2);
+
+    // Clear previous buttons to avoid duplicates on re-render if any
+    filterRow1.innerHTML = '';
+    filterRow2.innerHTML = '';
 
     categories.forEach((cat, index) => {
       const btn = document.createElement('button');
@@ -273,16 +288,23 @@
     });
   }
 
-  // פונקציה לעדכון ה-padding-top של ה-container בהתאם לגובה האמיתי של אזור הפילטרים
   function updateContainerPadding() {
     const headerHeight = document.querySelector('header').offsetHeight;
     const filtersWrapperHeight = document.querySelector('.filters-wrapper').offsetHeight;
     const productsContainer = document.getElementById('products');
-    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 10}px`; // 10px ריווח נוסף
+    // הוסף קצת ריווח נוסף מעבר לגובה המדויק
+    productsContainer.style.paddingTop = `${headerHeight + filtersWrapperHeight + 15}px`;
   }
 
   // הקשבה לאירוע שינוי גודל חלון כדי לעדכן את הריווח במידת הצורך
-  window.addEventListener('resize', updateContainerPadding);
+  // ודא שהעדכון מתבצע לאחר שהדפדפן סיים לסדר את ה-layout
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(updateContainerPadding, 100); // השהיה קצרה לביצוע אופטימלי
+  });
+  // קריאה ראשונית כשכל התוכן נטען
+  window.addEventListener('load', updateContainerPadding);
 
 
   fetch(sheetUrl)
