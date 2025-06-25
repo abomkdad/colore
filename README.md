@@ -22,11 +22,14 @@
     * {
       box-sizing: border-box;
     }
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Assistant', sans-serif;
       background-color: #0f172a;
       color: #ffffff;
+      height: 100%;
+      overflow: hidden;
     }
     header {
       background-color: #1e293b;
@@ -71,17 +74,17 @@
     .filters button[data-tag="הדרי"] { background-color: var(--lime); color: #000; }
     .filters button[data-tag="extrit"] { background-color: var(--black); }
 
+    .scroll-area {
+      height: calc(100dvh - 7.5rem);
+      overflow-y: auto;
+      padding: 1rem 0.6rem 2rem;
+    }
+
     .container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.7rem;
-      padding: 8rem 0.6rem 2rem;
       justify-items: center;
-    }
-    @media (min-width: 600px) {
-      .container {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
     .card {
       background-color: #1f2937;
@@ -134,7 +137,9 @@
 <body>
 <header>הבשמים של MAD</header>
 <div class="filters" id="filters"></div>
-<div class="container" id="products"></div>
+<div class="scroll-area">
+  <div class="container" id="products"></div>
+</div>
 <script>
   const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
   const categories = [
