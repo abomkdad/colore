@@ -37,10 +37,10 @@
       top: 0;
       z-index: 1000;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
       gap: 0.5rem;
-      padding: 1rem;
+      padding: 0.5rem;
       background-color: #1e293b;
       width: 100%;
     }
@@ -68,33 +68,32 @@
     .filters button[data-tag="extrit"] { background-color: var(--black); }
 
     .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 0.5rem;
-      padding: 6rem 0.5rem 1rem;
+      padding: 5.5rem 0.5rem 1rem;
+    }
+    @media(min-width: 480px) {
+      .container {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .card {
       background-color: #1f2937;
       border-radius: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       overflow: hidden;
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
-      flex: 0 0 calc(33.333% - 0.5rem);
-      max-width: calc(33.333% - 0.5rem);
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 1/1;
     }
     .card:hover {
       transform: translateY(-5px);
     }
     .card img {
       width: 100%;
-      height: auto;
-      object-fit: contain;
-      aspect-ratio: 1/1;
-      background-color: #ffffff10;
+      height: 100%;
+      object-fit: cover;
     }
     .card-content {
       padding: 0.5rem;
@@ -129,11 +128,9 @@
   </style>
 </head>
 <body>
-
 <header>הבשמים של MAD</header>
 <div class="filters" id="filters"></div>
 <div class="container" id="products"></div>
-
 <script>
   const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
   const categories = [
@@ -204,10 +201,8 @@
           </div>
         `;
       });
-
       renderFilterButtons();
     });
 </script>
-
 </body>
 </html>
