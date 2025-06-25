@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -32,15 +33,16 @@
       font-size: 1.7rem;
     }
     .filters {
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 10;
+      z-index: 1000;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.5rem;
       padding: 1rem;
       background-color: #1e293b;
+      width: 100%;
     }
     .filters button {
       flex: 0 0 auto;
@@ -68,8 +70,9 @@
     .container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      padding: 0.5rem;
       gap: 0.5rem;
+      padding: 6rem 0.5rem 1rem; /* مساحة للرأس المثبت */
+      justify-content: center;
     }
     .card {
       background-color: #1f2937;
@@ -119,14 +122,9 @@
     .hidden {
       display: none !important;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
       .container {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-      }
-      .card {
-        width: 100%;
       }
     }
   </style>
