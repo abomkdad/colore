@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -72,10 +73,15 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.7rem;
       padding: 8rem 0.6rem 2rem;
       justify-items: center;
+    }
+    @media (min-width: 600px) {
+      .container {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .card {
       background-color: #1f2937;
