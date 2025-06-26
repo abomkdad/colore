@@ -42,7 +42,7 @@ fetch(sheetUrl)
       const img = row.c[2]?.v || '';
       const tags = [];
 if (row.c[4]?.v?.toString().trim() === '1') tags.push('חמוץ מרתק');
-if (row.c[5]?.v?.toString().trim() === '1') tags.push('עור ועץ');
+if (row.c[5]?.v?.toString().trim() === '2') tags.push('עור ועץ');
 if (row.c[6]?.v?.toString().trim() === '1') tags.push('חמוץ');
 if (row.c[7]?.v?.toString().trim() === '1') tags.push('מרענן');
 if (row.c[8]?.v?.toString().trim() === '1') tags.push('מתוק');
