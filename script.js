@@ -41,18 +41,19 @@ fetch(sheetUrl)
       const code = row.c[0]?.v || '';
       const img = row.c[2]?.v || '';
       const tags = [];
-      if (row.c[4]?.v == 1) tags.push('חמוץ מרתק');
-      if (row.c[5]?.v == 1) tags.push('עור ועץ');
-      if (row.c[6]?.v == 1) tags.push('חמוץ');
-      if (row.c[7]?.v == 1) tags.push('מרענן');
-      if (row.c[8]?.v == 1) tags.push('מתוק');
-      if (row.c[9]?.v == 1) tags.push('מזרחי');
-      if (row.c[10]?.v == 1) tags.push('פרחוני');
-      if (row.c[11]?.v == 1) tags.push('פירותי');
-      if (row.c[12]?.v == 1) tags.push('אוריינטלי');
-      if (row.c[13]?.v == 1) tags.push('גורמה');
-      if (row.c[14]?.v == 1) tags.push('הדרי');
-      if (row.c[15]?.v == 1) tags.push('extrit');
+if (row.c[4]?.v?.toString().trim() === '1') tags.push('חמוץ מרתק');
+if (row.c[5]?.v?.toString().trim() === '1') tags.push('עור ועץ');
+if (row.c[6]?.v?.toString().trim() === '1') tags.push('חמוץ');
+if (row.c[7]?.v?.toString().trim() === '1') tags.push('מרענן');
+if (row.c[8]?.v?.toString().trim() === '1') tags.push('מתוק');
+if (row.c[9]?.v?.toString().trim() === '1') tags.push('מזרחי');
+if (row.c[10]?.v?.toString().trim() === '1') tags.push('פרחוני');
+if (row.c[11]?.v?.toString().trim() === '1') tags.push('פירותי');
+if (row.c[12]?.v?.toString().trim() === '1') tags.push('אוריינטלי');
+if (row.c[13]?.v?.toString().trim() === '1') tags.push('גורמה');
+if (row.c[14]?.v?.toString().trim() === '1') tags.push('הדרי');
+if (row.c[15]?.v?.toString().trim() === '1') tags.push('extrit');
+
 
       const tagHTML = tags.map(tag => `<span class="tag">${tag}</span>`).join('');
       const tagClass = tags.join(' ');
