@@ -1,6 +1,6 @@
 const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
 const categories = [
-  '1','עורועץ','חמוץ','מרענן','מתוק','מזרחי',
+  'מתוקחמוץ','עורועץ','חמוץ','מרענן','מתוק','מזרחי',
   'פרחוני','פירותי','אוריינטלי','גורמה','הדרי','extrit'
 ];
 
@@ -41,7 +41,7 @@ fetch(sheetUrl)
       const code = row.c[0]?.v || '';
       const img = row.c[2]?.v || '';
       const tags = [];
-if (row.c[4]?.v?.toString().trim() === '1') tags.push('1');
+if (row.c[4]?.v?.toString().trim() === '1') tags.push('מתוקחמוץ');
 if (row.c[5]?.v?.toString().trim() === '1') tags.push('עורועץ');
 if (row.c[6]?.v?.toString().trim() === '1') tags.push('חמוץ');
 if (row.c[7]?.v?.toString().trim() === '1') tags.push('מרענן');
