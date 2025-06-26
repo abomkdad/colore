@@ -55,7 +55,7 @@ header {
   color: white;
 }
 .filters button[data-tag="חמוץ מרתק"] { background-color: var(--blue-light); color: #000; }
-.filters button[data-tag="עור ועץ"] { background-color: var(--brown); }
+.filters button[data-tag="עורועץ"] { background-color: var(--brown); }
 .filters button[data-tag="חמוץ"] { background-color: var(--green); color: #000; }
 .filters button[data-tag="מרענן"] { background-color: var(--mint); color: #000; }
 .filters button[data-tag="מתוק"] { background-color: var(--orange); color: #000; }
