@@ -54,7 +54,7 @@ header {
   white-space: nowrap;
   color: white;
 }
-.filters button[data-tag="מרתק"] { background-color: var(--blue-light); color: #000; }
+.filters button[data-tag="מרתק"] { background-color: var(--blue); color: #000; }
 .filters button[data-tag="עורועץ"] { background-color: var(--brown); }
 .filters button[data-tag="חמוץ"] { background-color: var(--green); color: #000; }
 .filters button[data-tag="מרענן"] { background-color: var(--mint); color: #000; }
