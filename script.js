@@ -1,6 +1,6 @@
 const sheetUrl = 'https://docs.google.com/spreadsheets/d/1d5jClsyzy2inAoTbQIfxAZ65FjsmfSsQj6OGGs5YGVA/gviz/tq?tqx=out:json';
 const categories = [
-  ' שרכים','עורועץ','חמוץ','מרענן','מתוק','מזרחי',
+  '1','עורועץ','חמוץ','מרענן','מתוק','מזרחי',
   'פרחוני','פירותי','אוריינטלי','גורמה','הדרי','extrit'
 ];
 
